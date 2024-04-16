@@ -23,6 +23,13 @@ export class UserManager {
                 users: []
             })
         }
+
+        const existingUser = this.getUser(roomId, userId);
+        if (existingUser) {
+        console.log(`User with id ${userId} already exists in the room!`);
+        return;
+        }
+
         this.rooms.get(roomId)?.users.push({
             id: userId,
             name,
@@ -35,11 +42,14 @@ export class UserManager {
 
     removeUser(roomId: string, userId: string) {
         console.log("removed user");
-        const users = this.rooms.get(roomId)?.users;
-        if (users) {
-            users.filter(({id}) => id !== userId);
+        const room = this.rooms.get(roomId);
+        if (room) {
+        room.users = room.users.filter(({ id }) => id !== userId);
+        console.log(`User with id ${userId} removed!`);
+        } else {
+        console.error(`Error occurred while removing user with id ${userId}`);
         }
-    }
+        }
     
     getUser(roomId: string, userId: string): User | null {
         const user = this.rooms.get(roomId)?.users.find((({id}) => id === userId));
