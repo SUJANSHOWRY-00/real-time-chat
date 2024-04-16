@@ -23,6 +23,13 @@ export class UserManager {
                 users: []
             })
         }
+
+        const existingUser = this.getUser(roomId, userId);
+        if (existingUser) {
+        console.log(`User with id ${userId} already exists in the room!`);
+        return;
+        }
+
         this.rooms.get(roomId)?.users.push({
             id: userId,
             name,
