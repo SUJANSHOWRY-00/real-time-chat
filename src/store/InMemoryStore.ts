@@ -43,18 +43,20 @@ export class InMemoryStore implements Store {
             message,
             upvotes: []
         }
+        console.log(chat);
         room.chats.push(chat)
         return chat;
     }
 
     upvote(userId: UserId, roomId: string, chatId: string) {
         const room = this.store.get(roomId);
+        console.log(room?.chats[0].upvotes);
         if (!room) {
             return 
         }
         // Todo: Make this faster
         const chat = room.chats.find(({id}) => id == chatId);
-
+        console.log(chat,chatId);
         if (chat) {
             if (chat.upvotes.find(x => x === userId)) {
                 return chat;

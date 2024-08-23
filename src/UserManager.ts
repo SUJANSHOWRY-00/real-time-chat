@@ -42,6 +42,7 @@ export class UserManager {
     }
     
     getUser(roomId: string, userId: string): User | null {
+        console.log(this.rooms.get(roomId));
         const user = this.rooms.get(roomId)?.users.find((({id}) => id === userId));
         return user ?? null;
     }
@@ -55,14 +56,11 @@ export class UserManager {
         
         const room = this.rooms.get(roomId);
         if (!room) {
-            console.error("Rom rom not found");
+            console.error("Room not found");
             return;
         }
         
         room.users.forEach(({conn, id}) => {
-            if (id === userId) {
-                return;
-            }
             console.log("outgoing message " + JSON.stringify(message))
             conn.sendUTF(JSON.stringify(message))
         })
